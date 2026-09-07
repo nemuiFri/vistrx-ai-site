@@ -1,245 +1,233 @@
-const systemStages = [
+'use client';
+
+import { useEffect, useState } from 'react';
+
+const systemSteps = [
   {
     number: '01',
-    kicker: 'SENSE',
-    title: '检测玩家进入',
-    body: '摄像头捕捉玩家位置，建立空间坐标，让系统知道玩家何时进入战斗范围。',
+    label: 'SENSE',
+    title: 'A player enters the space.',
+    body: 'Cameras detect position and establish a live spatial coordinate. The room knows when the game begins.',
+    crop: 'crop-sense',
   },
   {
     number: '02',
-    kicker: 'IDENTIFY',
-    title: '锁定玩家身份',
-    body: '视觉识别持续跟踪当前玩家，为每个动作和视角变化提供稳定输入。',
+    label: 'IDENTIFY',
+    title: 'Vision locks onto the player.',
+    body: 'Continuous visual tracking keeps the player, viewpoint and movement connected to one stable identity.',
+    crop: 'crop-identify',
   },
   {
     number: '03',
-    kicker: 'GENERATE',
-    title: '生成全息角色',
-    body: '从图片或游戏资产生成 3D 内容，并预渲染多角度画面，接入实时运行管线。',
+    label: 'GENERATE',
+    title: 'A flat asset becomes spatial.',
+    body: 'Game art or a single image moves through an AI-native 3D content pipeline, prepared for multiple viewing angles.',
+    crop: 'crop-generate',
   },
   {
     number: '04',
-    kicker: 'TRACK',
-    title: '视角实时追踪',
-    body: '玩家走到哪个角度，系统就呈现角色对应的一面，让空间移动成为玩法本身。',
+    label: 'TRACK',
+    title: 'The world answers every viewpoint.',
+    body: 'Walk around the character and the visible side changes with you. Where you stand becomes part of the design.',
+    crop: 'crop-track',
   },
 ];
 
-const gameMechanics = [
+const experiences = [
   {
     number: '01',
     label: 'DODGE',
-    title: '移动，就是闪避',
-    body: 'Boss 的攻击先给出方向预警。玩家只需要侧身或跨步，摄像头就能把真实位置变化转成躲避动作。',
-    demo: 'dodge',
+    title: 'Move to survive.',
+    body: 'A directional warning gives the player one second to react. A real step sideways becomes an in-game dodge.',
+    crop: 'crop-dodge',
+    motion: 'motion-dodge',
   },
   {
     number: '02',
     label: 'FLANK',
-    title: '绕到背后，发现弱点',
-    body: '角色会持续面对玩家。只有真实走到背面，才能看见弱点并获得更高伤害窗口。',
-    demo: 'flank',
+    title: 'Walk around the threat.',
+    body: 'The boss turns to follow the player. Reach its back, reveal the weak point and open a short damage window.',
+    crop: 'crop-flank',
+    motion: 'motion-flank',
   },
   {
     number: '03',
     label: 'STRIKE',
-    title: '挥手，直接出招',
-    body: '视觉模型识别攻击手势，系统即时触发技能与声光反馈，让身体成为最直觉的控制器。',
-    demo: 'strike',
+    title: 'Gesture to attack.',
+    body: 'The camera reads a deliberate hand movement and triggers the move with light, sound and visual impact.',
+    crop: 'crop-strike',
+    motion: 'motion-strike',
   },
 ];
 
-const progressItems = [
-  ['READY', '体验概念与玩法', '完整系统流程、Boss 战机制与首个体验方向'],
-  ['READY', '内容制作能力', 'CG、UE5、AIGC 与游戏试玩内容的成熟制作团队'],
-  ['VALIDATING', '端到端互动原型', '显示、追踪、内容生成与实时渲染的联合验证'],
-  ['SEEKING', '首批共创伙伴', '游戏 IP、硬件、空间 AI、试点场地与商业合作'],
+const partners = [
+  ['GAME STUDIOS & IP', 'Bring a character, world or boss. Together we create the first public playable encounter.'],
+  ['DISPLAY & HARDWARE', 'Validate the display, camera coverage, local compute and a dependable physical setup.'],
+  ['AI & SPATIAL COMPUTING', 'Build the vision tracking, gesture recognition and image-to-3D content pipeline.'],
+  ['VENUES & COMMERCIAL', 'Test with real players in exhibitions, entertainment spaces and live activations.'],
 ];
 
-const partners = [
-  ['01', '游戏公司与 IP 方', '选择一个角色或 Boss，共同完成首个可公开展示的战斗 Demo。'],
-  ['02', '显示与硬件伙伴', '联合验证显示方案、摄像头覆盖、设备集成与现场稳定性。'],
-  ['03', 'AI 与空间计算伙伴', '共建单图转 3D、视觉追踪、动作识别与实时内容管线。'],
-  ['04', '场地与商业伙伴', '在展会、商业空间或线下娱乐场景进行真实玩家测试。'],
-];
+function IntroGate() {
+  const [visible, setVisible] = useState(true);
+
+  useEffect(() => {
+    const timer = window.setTimeout(() => setVisible(false), 3200);
+    return () => window.clearTimeout(timer);
+  }, []);
+
+  if (!visible) return null;
+
+  return (
+    <div className="intro-gate" aria-label="VISTRX AI entry sequence">
+      <button className="intro-skip" type="button" onClick={() => setVisible(false)}>SKIP</button>
+      <p className="intro-status"><span>01</span> PLAYER DETECTED</p>
+      <div className="intro-figure intro-neutral" aria-hidden="true" />
+      <div className="intro-figure intro-touch" aria-hidden="true" />
+      <div className="intro-scan" aria-hidden="true" />
+      <div className="intro-interface" aria-hidden="true">
+        <span>VISTRX / GATE 01</span>
+        <strong>ENTER EXPERIENCE</strong>
+        <small>TOUCH TO CONTINUE</small>
+        <i />
+      </div>
+      <div className="intro-ripple" aria-hidden="true" />
+    </div>
+  );
+}
+
+function Brand() {
+  return (
+    <span className="brand-lockup">
+      <i aria-hidden="true" />
+      <b>VISTRX AI</b>
+    </span>
+  );
+}
 
 export default function Home() {
   return (
     <main>
-      <nav className="site-nav" aria-label="主导航">
-        <a className="brand" href="#top" aria-label="VISTRX AI 首页">
-          <span className="brand-mark" aria-hidden="true" />
-          <span>VISTRX AI</span>
-        </a>
+      <IntroGate />
+
+      <nav className="site-nav" aria-label="Main navigation">
+        <a href="#top" aria-label="VISTRX AI home"><Brand /></a>
         <div className="nav-links">
-          <a href="#system">系统</a>
-          <a href="#experience">体验</a>
-          <a href="#progress">进展</a>
+          <a href="#about">ABOUT US</a>
+          <a href="#experience">EXPERIENCE</a>
+          <a href="#mission">MISSION</a>
         </div>
-        <a className="nav-cta" href="#partners">
-          成为共创伙伴
-          <span aria-hidden="true">↗</span>
-        </a>
+        <a className="nav-action" href="#collaborate">PARTNER WITH US <span>↗</span></a>
       </nav>
 
       <section className="hero" id="top">
-        <div className="hero-noise" aria-hidden="true" />
-        <div className="hero-orbit orbit-one" aria-hidden="true" />
-        <div className="hero-orbit orbit-two" aria-hidden="true" />
-
+        <div className="hero-grid" aria-hidden="true" />
         <div className="hero-copy">
-          <p className="eyebrow"><span>CONCEPT 001</span> · HOLOGRAPHIC GAMING</p>
-          <h1>
-            走进游戏，
-            <span>亲手迎战</span>
-          </h1>
-          <p className="hero-lede">
-            面向游戏行业的裸眼全息互动系统。无需头显或手柄，玩家通过移动、绕背与手势，直接参与眼前的战斗。
-          </p>
-          <div className="hero-actions">
-            <a className="primary-button" href="#partners">成为首批共创伙伴 <span>↗</span></a>
-            <a className="text-button" href="#system">查看系统原理 <span>↓</span></a>
-          </div>
-          <div className="hero-tags" aria-label="核心能力">
-            <span>NAKED-EYE</span>
-            <span>VISION TRACKING</span>
-            <span>AI NATIVE 3D</span>
+          <p className="micro-label">SPATIAL GAMEPLAY · WITHOUT THE WEARABLES</p>
+          <h1>STEP INTO<br />THE <em>GAME.</em></h1>
+          <p className="hero-lede">A glasses-free holographic game system where movement, viewpoint and gesture become the controls.</p>
+          <a className="line-link" href="#experience">EXPLORE THE EXPERIENCE <span>↓</span></a>
+        </div>
+        <div className="hero-figure" aria-hidden="true">
+          <div className="hero-person" />
+          <div className="hero-ring ring-one" />
+          <div className="hero-ring ring-two" />
+          <div className="hero-cross cross-x" />
+          <div className="hero-cross cross-y" />
+          <span className="hero-tag tag-view">VIEWPOINT / LOCKED</span>
+          <span className="hero-tag tag-body">BODY / INPUT</span>
+        </div>
+        <div className="hero-foot"><span>CONCEPT 001 · 2026</span><span>SCROLL TO ENTER</span></div>
+      </section>
+
+      <section className="about" id="about">
+        <div className="section-index">01 / ABOUT US</div>
+        <div className="about-head">
+          <h2>WE TURN SPACE<br />INTO GAMEPLAY.</h2>
+          <div className="about-copy">
+            <p>VISTRX AI is exploring a new kind of game interface: a visible character in physical space that reacts to one player in real time.</p>
+            <p>No headset. No handheld controller. The body becomes the input and the room becomes the level.</p>
           </div>
         </div>
-
-        <div className="hero-visual" aria-label="全息游戏玩法概念图">
-          <div className="visual-frame">
-            <img src="/media/gameplay.png" alt="全息 Boss 战与玩家位置交互概念" />
-            <div className="scan-line" aria-hidden="true" />
-            <div className="target-ring ring-a" aria-hidden="true" />
-            <div className="target-ring ring-b" aria-hidden="true" />
-            <div className="visual-label label-live"><i /> LIVE TRACKING</div>
-            <div className="visual-label label-latency">TARGET LATENCY · LOW</div>
-          </div>
-          <p className="visual-caption"><span>PLAYER POSITION</span> BECOMES GAME INPUT</p>
-        </div>
-
-        <div className="hero-index" aria-hidden="true">
-          <span>VISTRX / 2026</span>
-          <b>01</b>
+        <div className="proof-line">
+          <div><strong>18</strong><span>YEARS OF ANIMATION<br />& CG PRODUCTION</span></div>
+          <div><strong>05</strong><span>GAME CONTENT<br />CAPABILITIES</span></div>
+          <p>CONTENT & PRODUCTION<br />BY MDOG ANIMATION</p>
         </div>
       </section>
 
-      <section className="system-section" id="system">
-        <div className="section-heading">
-          <p className="eyebrow"><span>01 / SYSTEM</span></p>
-          <h2>从玩家进入，到世界回应</h2>
-          <p>四个阶段组成一次完整互动。玩家的位置、视角和动作，都成为游戏实时输入。</p>
-        </div>
-
-        <div className="system-layout">
-          <div className="system-visual-wrap">
-            <div className="system-image-frame">
-              <img src="/media/system-flow.png" alt="全息游戏系统四阶段运行流程" />
-              <div className="image-sheen" aria-hidden="true" />
-            </div>
-            <div className="system-status">
-              <span><i /> SYSTEM CONCEPT</span>
-              <span>4 STAGES</span>
-            </div>
-          </div>
-
-          <div className="stage-list">
-            {systemStages.map((stage) => (
-              <article className="stage" key={stage.number}>
-                <div className="stage-number">{stage.number}</div>
-                <div>
-                  <p>{stage.kicker}</p>
-                  <h3>{stage.title}</h3>
-                  <span>{stage.body}</span>
-                </div>
-              </article>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      <section className="gameplay-section" id="experience">
-        <div className="section-heading gameplay-heading">
-          <p className="eyebrow"><span>02 / GAMEPLAY</span></p>
-          <h2>身体，就是游戏手柄</h2>
-          <p>我们从一个 Boss 单挑开始，让位置、方向和动作直接决定战斗结果。</p>
-        </div>
-
-        <div className="gameplay-layout">
-          <div className="gameplay-image-frame">
-            <img src="/media/gameplay.png" alt="闪避、绕背和手势攻击的玩法机制" />
-            <div className="combat-scan" aria-hidden="true" />
-            <div className="combat-lock" aria-hidden="true">LOCKED</div>
-          </div>
-          <div className="mechanic-list">
-            {gameMechanics.map((item) => (
-              <article className="mechanic" key={item.number}>
-                <div className={`mechanic-demo ${item.demo}`} aria-hidden="true">
-                  <span className="demo-core" />
-                  <span className="demo-player" />
-                  <span className="demo-trace" />
-                </div>
-                <div className="mechanic-copy">
-                  <p>{item.number} / {item.label}</p>
-                  <h3>{item.title}</h3>
-                  <span>{item.body}</span>
-                </div>
-              </article>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      <section className="progress-section" id="progress">
-        <div className="progress-intro">
-          <p className="eyebrow"><span>03 / CURRENT STATE</span></p>
-          <h2>我们已经走到哪里</h2>
-          <p>首版网站将已经完成的能力、正在验证的技术和需要伙伴参与的部分分开呈现。</p>
-        </div>
-        <div className="progress-list">
-          {progressItems.map(([status, title, body], index) => (
-            <article className="progress-row" key={title}>
-              <span className={`status status-${status.toLowerCase()}`}>{status}</span>
-              <div className="progress-number">0{index + 1}</div>
-              <div>
-                <h3>{title}</h3>
-                <p>{body}</p>
+      <section className="system-story" aria-label="How the system works">
+        <header className="story-head">
+          <div className="section-index">SYSTEM / 04 STAGES</div>
+          <h2>FROM PRESENCE<br />TO RESPONSE.</h2>
+        </header>
+        <div className="system-steps">
+          {systemSteps.map((step, index) => (
+            <article className={`system-step ${index % 2 ? 'reverse' : ''}`} key={step.number}>
+              <div className={`source-crop system-crop ${step.crop}`} role="img" aria-label={step.title}>
+                <span className="crop-scan" aria-hidden="true" />
+                <small>SOURCE CONCEPT / {step.number}</small>
+              </div>
+              <div className="step-copy">
+                <p>{step.number} / {step.label}</p>
+                <h3>{step.title}</h3>
+                <span>{step.body}</span>
               </div>
             </article>
           ))}
         </div>
       </section>
 
-      <section className="team-section" id="team">
-        <div className="team-copy">
-          <p className="eyebrow"><span>CONTENT & PRODUCTION PARTNER</span></p>
-          <h2>由懂游戏内容的团队，把技术变成可玩的体验</h2>
-          <p>芒狗动画提供 CG、UE5、AIGC 与可玩广告制作能力，为全息体验建立角色、动画和实时内容管线。</p>
-          <a href="#partners">了解制作团队 <span>↗</span></a>
-        </div>
-        <div className="team-proof">
-          <div className="proof-stat"><strong>18</strong><span>YEARS<br />ANIMATION & CG</span></div>
-          <div className="proof-stat"><strong>05</strong><span>GAME CONTENT<br />CAPABILITIES</span></div>
-          <div className="client-strip" aria-label="团队过往项目">
-            <p>SELECTED TEAM WORK</p>
-            <div><span>MARVEL SNAP</span><span>RISE OF KINGDOMS</span><span>MOBILE LEGENDS</span><span>RAGNAROK</span></div>
-          </div>
-          <small>以上为团队过往内容制作经验，不代表其已成为本全息项目合作方。</small>
+      <section className="experience" id="experience">
+        <header className="experience-head">
+          <div className="section-index">02 / EXPERIENCE</div>
+          <h2>YOUR BODY IS<br />THE CONTROLLER.</h2>
+          <p>We start with one focused encounter: read the threat, change your position and strike with intent.</p>
+        </header>
+        <div className="experience-list">
+          {experiences.map((item) => (
+            <article className="experience-row" key={item.number}>
+              <div className="experience-copy">
+                <p>{item.number} / {item.label}</p>
+                <h3>{item.title}</h3>
+                <span>{item.body}</span>
+              </div>
+              <div className={`source-crop experience-crop ${item.crop}`} role="img" aria-label={item.title}>
+                <div className={`motion-layer ${item.motion}`} aria-hidden="true"><i /><i /><i /></div>
+                <small>GAMEPLAY STUDY / {item.number}</small>
+              </div>
+            </article>
+          ))}
         </div>
       </section>
 
-      <section className="partners-section" id="partners">
-        <div className="partners-heading">
-          <p className="eyebrow"><span>04 / CO-CREATION</span></p>
-          <h2>一起完成第一个<br />可玩的全息世界</h2>
-          <p>我们希望从一个可验证的小型体验开始，让每一类伙伴都拥有清晰的参与方式和共同成果。</p>
+      <section className="mission" id="mission">
+        <div className="section-index">03 / MISSION</div>
+        <div className="mission-title">
+          <p>OUR DIRECTION</p>
+          <h2>GIVE GAMES<br />A PLACE TO <em>LIVE.</em></h2>
         </div>
+        <div className="mission-grid">
+          <p className="mission-statement">We want digital characters to share the room with us, respond to where we stand and invite new forms of play beyond a screen.</p>
+          <div className="today-list">
+            <p>WHAT EXISTS TODAY</p>
+            <div><span>01</span><b>Experience concept and core combat loop</b><i>READY</i></div>
+            <div><span>02</span><b>CG, UE5 and AI-native content capability</b><i>READY</i></div>
+            <div><span>03</span><b>End-to-end interactive prototype</b><i>VALIDATING</i></div>
+            <div><span>04</span><b>Founding partner network</b><i>OPEN</i></div>
+          </div>
+        </div>
+      </section>
+
+      <section className="collaborate" id="collaborate">
+        <header>
+          <div className="section-index">04 / COLLABORATE</div>
+          <h2>BUILD THE FIRST<br />PLAYABLE WORLD<br />WITH US.</h2>
+        </header>
         <div className="partner-list">
-          {partners.map(([number, title, body]) => (
-            <article className="partner-row" key={number}>
-              <span>{number}</span>
-              <h3>{title}</h3>
+          {partners.map(([name, body], index) => (
+            <article key={name}>
+              <span>0{index + 1}</span>
+              <h3>{name}</h3>
               <p>{body}</p>
               <b aria-hidden="true">↗</b>
             </article>
@@ -247,18 +235,17 @@ export default function Home() {
         </div>
       </section>
 
-      <section className="final-cta" id="contact">
-        <div className="cta-orbit" aria-hidden="true"><i /><i /><i /></div>
-        <p className="eyebrow"><span>FOUNDING PARTNERS · OPEN</span></p>
-        <h2>下一次见面，<br />让它真正运行起来</h2>
-        <p>如果你拥有游戏 IP、显示硬件、空间 AI 能力或试点场景，我们希望听听你的想法。</p>
-        <button className="primary-button cta-button" type="button">合作联系入口 <span>↗</span></button>
-        <span className="contact-email">CONTACT METHOD · TO BE CONFIRMED</span>
+      <section className="closing">
+        <div className="closing-orbit" aria-hidden="true"><i /><i /><i /></div>
+        <p>FOUNDING PARTNERS · OPEN</p>
+        <h2>LET&apos;S MAKE IT<br />REAL.</h2>
+        <button type="button">START A CONVERSATION <span>↗</span></button>
+        <small>CONTACT CHANNEL · TO BE CONFIRMED</small>
       </section>
 
       <footer>
-        <a className="brand" href="#top"><span className="brand-mark" />VISTRX AI</a>
-        <p>HOLOGRAPHIC GAMING · CONCEPT 2026</p>
+        <Brand />
+        <span>HOLOGRAPHIC GAMING · CONCEPT 2026</span>
         <span>CONTENT PARTNER · MDOG ANIMATION</span>
       </footer>
     </main>
