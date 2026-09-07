@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from 'react';
 import { HoloScene } from '@/components/holo-scene';
+import { IntroScene } from '@/components/intro-scene';
 import { Brand, SiteNav } from '@/components/site-nav';
 import { useLanguage, type Language } from '@/components/use-language';
 
@@ -77,16 +78,12 @@ function IntroGate({ language }: { language: Language }) {
     <div className="intro-gate" aria-label={zh ? 'VISTRX AI 进入动画' : 'VISTRX AI entry sequence'}>
       <button className="intro-skip" type="button" onClick={() => setVisible(false)}>{zh ? '跳过' : 'SKIP'}</button>
       <p className="intro-status"><span>01</span>{zh ? '检测到玩家' : 'PLAYER DETECTED'}</p>
-      <div className="intro-figure intro-neutral" aria-hidden="true" />
-      <div className="intro-figure intro-touch" aria-hidden="true" />
-      <div className="intro-scan" aria-hidden="true" />
-      <div className="intro-interface" aria-hidden="true">
-        <span>VISTRX / GATE 01</span>
-        <strong>{zh ? '进入体验' : 'ENTER EXPERIENCE'}</strong>
-        <small>{zh ? '点击继续' : 'TOUCH TO CONTINUE'}</small>
-        <i />
+      <IntroScene />
+      <div className="intro-phase" aria-hidden="true">
+        <span>{zh ? '扫描玩家' : 'SCAN PLAYER'}</span>
+        <span>{zh ? '生成界面' : 'PROJECT INTERFACE'}</span>
+        <span>{zh ? '触控确认' : 'TOUCH CONFIRMED'}</span>
       </div>
-      <div className="intro-ripple" aria-hidden="true" />
     </div>
   );
 }

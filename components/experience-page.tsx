@@ -12,6 +12,16 @@ type Concept = {
   zh: { label: string; title: string; body: string; note: string };
 };
 
+const sceneLegends: Record<SceneMode, { en: string[]; zh: string[] }> = {
+  sense: { en: ['CAMERA ARRAY', 'DETECTION RAYS', 'CALIBRATED PLAYER VOLUME'], zh: ['摄像阵列', '检测射线', '玩家校准空间'] },
+  identify: { en: ['IDENTITY VOLUME', 'BODY LANDMARKS', 'HEAD LOCK'], zh: ['身份空间框', '身体关键点', '头部锁定'] },
+  generate: { en: ['2D SOURCE ASSET', 'AI 3D RECONSTRUCTION', 'MULTI-VIEW MODEL'], zh: ['二维源素材', 'AI 三维重建', '多视角模型'] },
+  track: { en: ['MOVING PLAYER', 'VIEWPOINT ORBIT', 'RESPONSIVE CHARACTER'], zh: ['移动玩家', '视角轨道', '响应式角色'] },
+  dodge: { en: ['ATTACK WARNING', 'DANGER LANE', 'PHYSICAL SIDESTEP'], zh: ['攻击预警', '危险区域', '现实侧步'] },
+  flank: { en: ['BOSS ROTATION', 'PLAYER ORBIT', 'REAR WEAK POINT'], zh: ['Boss 转向', '玩家绕行', '背部弱点'] },
+  strike: { en: ['CAMERA CAPTURE', 'GESTURE PATH', 'ATTACK IMPACT'], zh: ['摄像捕捉', '手势轨迹', '攻击命中'] },
+};
+
 const systemConcepts: Concept[] = [
   {
     number: '01', mode: 'sense',
@@ -103,6 +113,9 @@ export function ExperiencePage({ kind }: { kind: 'system' | 'gameplay' }) {
             <span>{language === 'zh' ? '拖动旋转 / 滚动缩放' : 'DRAG TO ROTATE / SCROLL TO ZOOM'}</span>
           </div>
           <HoloScene mode={concept.mode} />
+          <div className="scene-legend" aria-hidden="true">
+            {sceneLegends[concept.mode][language].map((label, index) => <span key={label}><b>0{index + 1}</b>{label}</span>)}
+          </div>
         </div>
 
         <article className="concept-copy">
