@@ -1,74 +1,70 @@
 'use client';
 
 import { useEffect, useState } from 'react';
+import { HoloScene } from '@/components/holo-scene';
+import { Brand, SiteNav } from '@/components/site-nav';
+import { useLanguage, type Language } from '@/components/use-language';
 
-const systemSteps = [
+const capabilities = [
   {
     number: '01',
-    label: 'SENSE',
-    title: 'A player enters the space.',
-    body: 'Cameras detect position and establish a live spatial coordinate. The room knows when the game begins.',
-    crop: 'crop-sense',
+    en: { title: 'UA AD CREATIVE', body: 'High-volume game advertising videos in vertical, square and landscape formats, built for rapid performance testing.' },
+    zh: { title: 'UA 买量视频', body: '制作竖屏、方形和横屏游戏广告素材，支持高频测试和批量稳定交付。' },
   },
   {
     number: '02',
-    label: 'IDENTIFY',
-    title: 'Vision locks onto the player.',
-    body: 'Continuous visual tracking keeps the player, viewpoint and movement connected to one stable identity.',
-    crop: 'crop-identify',
+    en: { title: 'CG GAME TRAILERS', body: 'Full 3D game trailers delivered from storyboard and visual development through animation, rendering and compositing.' },
+    zh: { title: '游戏 CG 宣传片', body: '从分镜与视觉开发到动画、渲染和合成，完成全三维游戏宣传片制作。' },
   },
   {
     number: '03',
-    label: 'GENERATE',
-    title: 'A flat asset becomes spatial.',
-    body: 'Game art or a single image moves through an AI-native 3D content pipeline, prepared for multiple viewing angles.',
-    crop: 'crop-generate',
+    en: { title: 'UE5 ANIMATION', body: 'A real-time Unreal Engine 5 pipeline for high-quality game animation with faster creative iteration.' },
+    zh: { title: 'UE5 引擎动画', body: '使用虚幻引擎 5 实时渲染管线，更快迭代高质量游戏动画内容。' },
   },
   {
     number: '04',
-    label: 'TRACK',
-    title: 'The world answers every viewpoint.',
-    body: 'Walk around the character and the visible side changes with you. Where you stand becomes part of the design.',
-    crop: 'crop-track',
+    en: { title: 'PLAYABLE ADS', body: 'Interactive HTML5 experiences that let players understand and try a core mechanic before downloading the game.' },
+    zh: { title: '游戏试玩开发', body: '开发 HTML5 可交互体验，让玩家在下载前直接理解并试玩核心玩法。' },
+  },
+  {
+    number: '05',
+    en: { title: 'AI-POWERED CREATIVE', body: 'AI-assisted production for scalable live-action and animated content across different visual styles.' },
+    zh: { title: 'AI 原生素材', body: '以 AI 辅助真人和动画内容生产，适配多种视觉风格与批量交付需求。' },
   },
 ];
 
-const experiences = [
-  {
-    number: '01',
-    label: 'DODGE',
-    title: 'Move to survive.',
-    body: 'A directional warning gives the player one second to react. A real step sideways becomes an in-game dodge.',
-    crop: 'crop-dodge',
-    motion: 'motion-dodge',
-  },
-  {
-    number: '02',
-    label: 'FLANK',
-    title: 'Walk around the threat.',
-    body: 'The boss turns to follow the player. Reach its back, reveal the weak point and open a short damage window.',
-    crop: 'crop-flank',
-    motion: 'motion-flank',
-  },
-  {
-    number: '03',
-    label: 'STRIKE',
-    title: 'Gesture to attack.',
-    body: 'The camera reads a deliberate hand movement and triggers the move with light, sound and visual impact.',
-    crop: 'crop-strike',
-    motion: 'motion-strike',
-  },
+const teamDisciplines = [
+  { en: 'Creative direction & storyboards', zh: '创意策划与分镜设计' },
+  { en: '3D art & character animation', zh: '三维美术与角色动画' },
+  { en: 'Lighting, effects & compositing', zh: '灯光、特效与合成' },
+  { en: 'UE5 real-time production', zh: 'UE5 实时制作' },
+  { en: 'AI-native content production', zh: 'AI 原生内容生产' },
+  { en: 'Playable & interaction engineering', zh: '试玩与交互开发' },
+  { en: 'Production management & delivery', zh: '制片管理与全球交付' },
 ];
 
 const partners = [
-  ['GAME STUDIOS & IP', 'Bring a character, world or boss. Together we create the first public playable encounter.'],
-  ['DISPLAY & HARDWARE', 'Validate the display, camera coverage, local compute and a dependable physical setup.'],
-  ['AI & SPATIAL COMPUTING', 'Build the vision tracking, gesture recognition and image-to-3D content pipeline.'],
-  ['VENUES & COMMERCIAL', 'Test with real players in exhibitions, entertainment spaces and live activations.'],
+  {
+    en: ['GAME STUDIOS & IP', 'Bring a character, world or boss. Together we can build the first spatial playable encounter.'],
+    zh: ['游戏工作室与 IP', '带来角色、世界观或 Boss，与我们共同制作首个空间化可玩体验。'],
+  },
+  {
+    en: ['HOLOGRAPHIC HARDWARE', 'Develop the projection, optical path, tracking coverage and dependable physical installation.'],
+    zh: ['全息显示与硬件', '共同研发投影、光路、追踪覆盖和可靠的实体安装方案。'],
+  },
+  {
+    en: ['AI & SPATIAL COMPUTING', 'Advance player tracking, gesture recognition, viewpoint rendering and the 3D content pipeline.'],
+    zh: ['AI 与空间计算', '推进玩家追踪、手势识别、视角渲染和三维内容管线。'],
+  },
+  {
+    en: ['VENUES & COMMERCIAL', 'Test the experience with real players in exhibitions, entertainment spaces and live activations.'],
+    zh: ['场地与商业合作', '在展览、娱乐空间和现场活动中与真实玩家验证体验。'],
+  },
 ];
 
-function IntroGate() {
+function IntroGate({ language }: { language: Language }) {
   const [visible, setVisible] = useState(true);
+  const zh = language === 'zh';
 
   useEffect(() => {
     const timer = window.setTimeout(() => setVisible(false), 3200);
@@ -78,16 +74,16 @@ function IntroGate() {
   if (!visible) return null;
 
   return (
-    <div className="intro-gate" aria-label="VISTRX AI entry sequence">
-      <button className="intro-skip" type="button" onClick={() => setVisible(false)}>SKIP</button>
-      <p className="intro-status"><span>01</span> PLAYER DETECTED</p>
+    <div className="intro-gate" aria-label={zh ? 'VISTRX AI 进入动画' : 'VISTRX AI entry sequence'}>
+      <button className="intro-skip" type="button" onClick={() => setVisible(false)}>{zh ? '跳过' : 'SKIP'}</button>
+      <p className="intro-status"><span>01</span>{zh ? '检测到玩家' : 'PLAYER DETECTED'}</p>
       <div className="intro-figure intro-neutral" aria-hidden="true" />
       <div className="intro-figure intro-touch" aria-hidden="true" />
       <div className="intro-scan" aria-hidden="true" />
       <div className="intro-interface" aria-hidden="true">
         <span>VISTRX / GATE 01</span>
-        <strong>ENTER EXPERIENCE</strong>
-        <small>TOUCH TO CONTINUE</small>
+        <strong>{zh ? '进入体验' : 'ENTER EXPERIENCE'}</strong>
+        <small>{zh ? '点击继续' : 'TOUCH TO CONTINUE'}</small>
         <i />
       </div>
       <div className="intro-ripple" aria-hidden="true" />
@@ -95,37 +91,22 @@ function IntroGate() {
   );
 }
 
-function Brand() {
-  return (
-    <span className="brand-lockup">
-      <i aria-hidden="true" />
-      <b>VISTRX AI</b>
-    </span>
-  );
-}
-
 export default function Home() {
+  const { language, setLanguage } = useLanguage();
+  const zh = language === 'zh';
+
   return (
     <main>
-      <IntroGate />
-
-      <nav className="site-nav" aria-label="Main navigation">
-        <a href="#top" aria-label="VISTRX AI home"><Brand /></a>
-        <div className="nav-links">
-          <a href="#about">ABOUT US</a>
-          <a href="#experience">EXPERIENCE</a>
-          <a href="#mission">MISSION</a>
-        </div>
-        <a className="nav-action" href="#collaborate">PARTNER WITH US <span>↗</span></a>
-      </nav>
+      <IntroGate language={language} />
+      <SiteNav language={language} onLanguageChange={setLanguage} />
 
       <section className="hero" id="top">
         <div className="hero-grid" aria-hidden="true" />
         <div className="hero-copy">
-          <p className="micro-label">SPATIAL GAMEPLAY · WITHOUT THE WEARABLES</p>
-          <h1>STEP INTO<br />THE <em>GAME.</em></h1>
-          <p className="hero-lede">A glasses-free holographic game system where movement, viewpoint and gesture become the controls.</p>
-          <a className="line-link" href="#experience">EXPLORE THE EXPERIENCE <span>↓</span></a>
+          <p className="micro-label">{zh ? '空间游戏 · 无需穿戴设备' : 'SPATIAL GAMEPLAY · WITHOUT WEARABLES'}</p>
+          <h1>{zh ? <>走进<br /><em>游戏。</em></> : <>STEP INTO<br />THE <em>GAME.</em></>}</h1>
+          <p className="hero-lede">{zh ? '一个面向游戏行业的全息互动项目，让身体位置、观看视角和动作成为控制方式。' : 'A holographic interaction project for the game industry, where body position, viewpoint and movement become the controls.'}</p>
+          <a className="line-link" href="#experience">{zh ? '探索体验' : 'EXPLORE THE EXPERIENCE'} <span>↓</span></a>
         </div>
         <div className="hero-figure" aria-hidden="true">
           <div className="hero-person" />
@@ -133,45 +114,41 @@ export default function Home() {
           <div className="hero-ring ring-two" />
           <div className="hero-cross cross-x" />
           <div className="hero-cross cross-y" />
-          <span className="hero-tag tag-view">VIEWPOINT / LOCKED</span>
-          <span className="hero-tag tag-body">BODY / INPUT</span>
+          <span className="hero-tag tag-view">{zh ? '视角 / 锁定' : 'VIEWPOINT / LOCKED'}</span>
+          <span className="hero-tag tag-body">{zh ? '身体 / 输入' : 'BODY / INPUT'}</span>
         </div>
-        <div className="hero-foot"><span>CONCEPT 001 · 2026</span><span>SCROLL TO ENTER</span></div>
+        <div className="hero-foot"><span>CONCEPT 001 · 2026</span><span>{zh ? '向下滚动' : 'SCROLL TO ENTER'}</span></div>
       </section>
 
       <section className="about" id="about">
-        <div className="section-index">01 / ABOUT US</div>
+        <div className="section-index">01 / {zh ? '关于我们' : 'ABOUT US'}</div>
         <div className="about-head">
-          <h2>WE TURN SPACE<br />INTO GAMEPLAY.</h2>
+          <h2>{zh ? <>完整团队<br />完整管线</> : <>ONE TEAM.<br />FULL PIPELINE.</>}</h2>
           <div className="about-copy">
-            <p>VISTRX AI is exploring a new kind of game interface: a visible character in physical space that reacts to one player in real time.</p>
-            <p>No headset. No handheld controller. The body becomes the input and the room becomes the level.</p>
+            <p>{zh ? 'VISTRX AI 由芒狗动画团队发起。芒狗动画是一家位于天津的游戏视觉制作公司，拥有 18 年动画与 CG 制作积淀，服务全球游戏客户。' : 'VISTRX AI is initiated by MDOG Animation, a Tianjin-based game visual production studio with 18 years of animation and CG experience serving global game clients.'}</p>
+            <p>{zh ? '我们的完整制作团队覆盖前期创意、三维制作、实时引擎、AI 内容、交互开发和制片交付。这个项目把现有内容能力延伸到空间计算和全息游戏。' : 'Our complete production team covers creative development, 3D production, real-time engines, AI content, interaction engineering and delivery. This project extends that foundation into spatial computing and holographic games.'}</p>
           </div>
         </div>
-        <div className="proof-line">
-          <div><strong>18</strong><span>YEARS OF ANIMATION<br />& CG PRODUCTION</span></div>
-          <div><strong>05</strong><span>GAME CONTENT<br />CAPABILITIES</span></div>
-          <p>CONTENT & PRODUCTION<br />BY MDOG ANIMATION</p>
-        </div>
-      </section>
 
-      <section className="system-story" aria-label="How the system works">
-        <header className="story-head">
-          <div className="section-index">SYSTEM / 04 STAGES</div>
-          <h2>FROM PRESENCE<br />TO RESPONSE.</h2>
+        <div className="team-band">
+          <div className="team-stat"><strong>18</strong><span>{zh ? '年动画与 CG 制作经验' : 'YEARS IN ANIMATION & CG PRODUCTION'}</span></div>
+          <div className="team-summary">
+            <p>{zh ? '一支完整的内部制作团队' : 'A COMPLETE IN-HOUSE PRODUCTION TEAM'}</p>
+            <div>{teamDisciplines.map((item, index) => <span key={item.en}><b>0{index + 1}</b>{item[language]}</span>)}</div>
+          </div>
+        </div>
+
+        <header className="capability-head">
+          <p>{zh ? '五大能力' : 'FIVE CORE CAPABILITIES'}</p>
+          <h3>{zh ? '覆盖游戏内容生产全链路' : 'GAME CONTENT FROM FIRST IDEA TO FINAL DELIVERY'}</h3>
         </header>
-        <div className="system-steps">
-          {systemSteps.map((step, index) => (
-            <article className={`system-step ${index % 2 ? 'reverse' : ''}`} key={step.number}>
-              <div className={`source-crop system-crop ${step.crop}`} role="img" aria-label={step.title}>
-                <span className="crop-scan" aria-hidden="true" />
-                <small>SOURCE CONCEPT / {step.number}</small>
-              </div>
-              <div className="step-copy">
-                <p>{step.number} / {step.label}</p>
-                <h3>{step.title}</h3>
-                <span>{step.body}</span>
-              </div>
+        <div className="capability-list">
+          {capabilities.map((item) => (
+            <article key={item.number}>
+              <span>{item.number}</span>
+              <h4>{item[language].title}</h4>
+              <p>{item[language].body}</p>
+              <i aria-hidden="true">↗</i>
             </article>
           ))}
         </div>
@@ -179,56 +156,66 @@ export default function Home() {
 
       <section className="experience" id="experience">
         <header className="experience-head">
-          <div className="section-index">02 / EXPERIENCE</div>
-          <h2>YOUR BODY IS<br />THE CONTROLLER.</h2>
-          <p>We start with one focused encounter: read the threat, change your position and strike with intent.</p>
+          <div className="section-index">02 / {zh ? '体验' : 'EXPERIENCE'}</div>
+          <h2>{zh ? <>两个体验<br />实时 3D 概念</> : <>TWO EXPERIENCES.<br />LIVE 3D CONCEPTS.</>}</h2>
+          <p>{zh ? '进入两个独立体验页，点击每个步骤查看对应的实时三维模型。模型可旋转、缩放，并展示概念动作。' : 'Enter two dedicated experience pages. Select each stage to inspect a live 3D model that rotates, zooms and demonstrates the concept in motion.'}</p>
         </header>
-        <div className="experience-list">
-          {experiences.map((item) => (
-            <article className="experience-row" key={item.number}>
-              <div className="experience-copy">
-                <p>{item.number} / {item.label}</p>
-                <h3>{item.title}</h3>
-                <span>{item.body}</span>
-              </div>
-              <div className={`source-crop experience-crop ${item.crop}`} role="img" aria-label={item.title}>
-                <div className={`motion-layer ${item.motion}`} aria-hidden="true"><i /><i /><i /></div>
-                <small>GAMEPLAY STUDY / {item.number}</small>
-              </div>
-            </article>
-          ))}
+        <div className="experience-gates">
+          <a className="experience-gate" href="/experience/system">
+            <div className="gate-model"><HoloScene mode="track" interactive={false} /></div>
+            <span>01 / {zh ? '系统体验' : 'SYSTEM EXPERIENCE'}</span>
+            <h3>{zh ? '从玩家出现到系统响应' : 'From presence to response'}</h3>
+            <p>{zh ? '查看感知、身份识别、空间内容生成和视角追踪四个实时 3D 概念。' : 'Explore four real-time 3D concepts for sensing, identity, spatial content generation and viewpoint tracking.'}</p>
+            <b>{zh ? '进入系统体验' : 'OPEN SYSTEM EXPERIENCE'} ↗</b>
+          </a>
+          <a className="experience-gate" href="/experience/gameplay">
+            <div className="gate-model"><HoloScene mode="flank" interactive={false} /></div>
+            <span>02 / {zh ? '战斗体验' : 'COMBAT EXPERIENCE'}</span>
+            <h3>{zh ? '身体动作成为游戏输入' : 'Your body becomes input'}</h3>
+            <p>{zh ? '查看闪避、绕后和手势攻击三个实时 3D 战斗玩法概念。' : 'Enter three real-time 3D combat concepts for dodging, flanking and gesture-driven attacks.'}</p>
+            <b>{zh ? '进入战斗体验' : 'OPEN COMBAT EXPERIENCE'} ↗</b>
+          </a>
         </div>
       </section>
 
       <section className="mission" id="mission">
-        <div className="section-index">03 / MISSION</div>
+        <div className="section-index">03 / {zh ? '使命' : 'MISSION'}</div>
         <div className="mission-title">
-          <p>OUR DIRECTION</p>
-          <h2>GIVE GAMES<br />A PLACE TO <em>LIVE.</em></h2>
+          <p>{zh ? '我们的目标' : 'OUR DIRECTION'}</p>
+          <h2>{zh ? <>让游戏真正<br />出现在<em>空气中</em></> : <>HOLOGRAPHIC GAMES<br />IN <em>OPEN AIR.</em></>}</h2>
         </div>
-        <div className="mission-grid">
-          <p className="mission-statement">We want digital characters to share the room with us, respond to where we stand and invite new forms of play beyond a screen.</p>
+        <div className="mission-vision">
+          <p>{zh ? '我们的使命是做出完整的无介质全息投影系统。不依赖屏幕、幕布、玻璃箱、雾幕或可穿戴显示，让可交互的三维游戏角色直接呈现在空气中。玩家通过自己的位置、观察角度和动作与游戏互动。' : 'Our mission is to create a complete holographic projection system without a visible medium. No screen, projection surface, glass enclosure, mist curtain or wearable display. Interactive 3D game characters appear directly in open air and respond to the player.'}</p>
+          <div className="mission-principles">
+            <span>{zh ? '无屏幕' : 'NO SCREEN'}</span>
+            <span>{zh ? '无可见载体' : 'NO VISIBLE MEDIUM'}</span>
+            <span>{zh ? '无穿戴设备' : 'NO WEARABLE'}</span>
+            <span>{zh ? '空气中交互' : 'OPEN-AIR INTERACTION'}</span>
+          </div>
+        </div>
+        <div className="mission-grid mission-roadmap">
+          <p className="mission-statement">{zh ? '我们已经具备游戏内容、CG、UE5、AI 原生制作和互动概念设计能力。下一步需要与全息显示、空间计算和场地伙伴一起，把这些能力连接成可以公开体验的完整系统。' : 'We already have game content, CG, UE5, AI production and interactive concept capabilities. The next step is to connect them with holographic display, spatial computing and venue partners in a complete public prototype.'}</p>
           <div className="today-list">
-            <p>WHAT EXISTS TODAY</p>
-            <div><span>01</span><b>Experience concept and core combat loop</b><i>READY</i></div>
-            <div><span>02</span><b>CG, UE5 and AI-native content capability</b><i>READY</i></div>
-            <div><span>03</span><b>End-to-end interactive prototype</b><i>VALIDATING</i></div>
-            <div><span>04</span><b>Founding partner network</b><i>OPEN</i></div>
+            <p>{zh ? '项目进度' : 'PROJECT STATUS'}</p>
+            <div><span>01</span><b>{zh ? '核心游戏体验与战斗概念' : 'Core game experience and combat concept'}</b><i>{zh ? '已完成' : 'READY'}</i></div>
+            <div><span>02</span><b>{zh ? 'CG、UE5 与 AI 内容管线' : 'CG, UE5 and AI content pipeline'}</b><i>{zh ? '已具备' : 'READY'}</i></div>
+            <div><span>03</span><b>{zh ? '空间追踪与实时交互原型' : 'Spatial tracking and real-time interaction prototype'}</b><i>{zh ? '验证中' : 'VALIDATING'}</i></div>
+            <div><span>04</span><b>{zh ? '无介质全息显示系统' : 'Open-air holographic display system'}</b><i>{zh ? '寻求合作' : 'PARTNERING'}</i></div>
           </div>
         </div>
       </section>
 
       <section className="collaborate" id="collaborate">
         <header>
-          <div className="section-index">04 / COLLABORATE</div>
-          <h2>BUILD THE FIRST<br />PLAYABLE WORLD<br />WITH US.</h2>
+          <div className="section-index">04 / {zh ? '合作' : 'COLLABORATE'}</div>
+          <h2>{zh ? <>一起完成<br />第一个可玩的<br />全息世界</> : <>BUILD THE FIRST<br />PLAYABLE<br />HOLOGRAPHIC WORLD.</>}</h2>
         </header>
         <div className="partner-list">
-          {partners.map(([name, body], index) => (
-            <article key={name}>
+          {partners.map((item, index) => (
+            <article key={item.en[0]}>
               <span>0{index + 1}</span>
-              <h3>{name}</h3>
-              <p>{body}</p>
+              <h3>{item[language][0]}</h3>
+              <p>{item[language][1]}</p>
               <b aria-hidden="true">↗</b>
             </article>
           ))}
@@ -237,16 +224,16 @@ export default function Home() {
 
       <section className="closing">
         <div className="closing-orbit" aria-hidden="true"><i /><i /><i /></div>
-        <p>FOUNDING PARTNERS · OPEN</p>
-        <h2>LET&apos;S MAKE IT<br />REAL.</h2>
-        <button type="button">START A CONVERSATION <span>↗</span></button>
-        <small>CONTACT CHANNEL · TO BE CONFIRMED</small>
+        <p>{zh ? '创始合作伙伴招募中' : 'FOUNDING PARTNERS · OPEN'}</p>
+        <h2>{zh ? <>一起把它<br />变成现实</> : <>LET&apos;S MAKE IT<br />REAL.</>}</h2>
+        <button type="button">{zh ? '开始沟通' : 'START A CONVERSATION'} <span>↗</span></button>
+        <small>{zh ? '联系方式待确认' : 'CONTACT CHANNEL · TO BE CONFIRMED'}</small>
       </section>
 
       <footer>
         <Brand />
-        <span>HOLOGRAPHIC GAMING · CONCEPT 2026</span>
-        <span>CONTENT PARTNER · MDOG ANIMATION</span>
+        <span>{zh ? '全息游戏 · 概念 2026' : 'HOLOGRAPHIC GAMING · CONCEPT 2026'}</span>
+        <span>{zh ? '内容伙伴 · 芒狗动画' : 'CONTENT PARTNER · MDOG ANIMATION'}</span>
       </footer>
     </main>
   );
