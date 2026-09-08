@@ -1,6 +1,5 @@
 'use client';
 
-import Link from 'next/link';
 import { useState } from 'react';
 import { HoloScene, type SceneMode } from './holo-scene';
 import { SiteNav } from './site-nav';
@@ -88,7 +87,7 @@ export function ExperiencePage({ kind }: { kind: 'system' | 'gameplay' }) {
     <main className="experience-page">
       <SiteNav language={language} onLanguageChange={setLanguage} />
       <header className="experience-page-hero">
-        <Link href="/#experience" className="back-link">← {language === 'zh' ? '返回全部体验' : 'ALL EXPERIENCES'}</Link>
+        <a href="/#experience" className="back-link">← {language === 'zh' ? '返回全部体验' : 'ALL EXPERIENCES'}</a>
         <p>{content.eyebrow}</p>
         <h1>{content.title.split('\n').map((line) => <span key={line}>{line}</span>)}</h1>
         <div className="experience-page-intro">
@@ -130,11 +129,11 @@ export function ExperiencePage({ kind }: { kind: 'system' | 'gameplay' }) {
         </article>
       </section>
 
-      <Link className="next-experience" href={content.route}>
+      <a className="next-experience" href={content.route}>
         <span>{language === 'zh' ? '继续探索' : 'CONTINUE EXPLORING'}</span>
         <strong>{content.next}</strong>
         <b>↗</b>
-      </Link>
+      </a>
     </main>
   );
 }

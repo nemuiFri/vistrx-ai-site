@@ -1,7 +1,5 @@
 'use client';
 
-import Link from 'next/link';
-import Image from 'next/image';
 import { Brand, SiteNav } from '@/components/site-nav';
 import { useLanguage } from '@/components/use-language';
 
@@ -72,7 +70,7 @@ export default function Home() {
 
       <section className="logo-landing" id="top" aria-label="VISTRX AI">
         <div className="logo-crop">
-          <Image src="/media/vistrx-logo.jpg" alt="VISTRX AI" width={2900} height={1700} priority sizes="88vw" />
+          <img src="/media/vistrx-logo.jpg" alt="VISTRX AI" width="2900" height="1700" />
         </div>
         <a className="logo-scroll" href="#experience">
           <span>{zh ? '探索两项业务' : 'EXPLORE TWO DIRECTIONS'}</span>
@@ -81,7 +79,7 @@ export default function Home() {
       </section>
 
       <section className="business-split" id="experience" aria-label={zh ? '两项业务' : 'Two business directions'}>
-        <Link className="split-side split-holography" href="/business/display">
+        <a className="split-side split-holography" href="/business/display">
           {/* Add /public/video/holography.mp4 to replace the gradient background. */}
           <video className="split-video" autoPlay muted loop playsInline preload="metadata" aria-hidden="true">
             <source src="/video/holography.mp4" type="video/mp4" />
@@ -93,8 +91,8 @@ export default function Home() {
             <h2>{zh ? '有介质商业全息方案' : 'MEDIUM-BASED COMMERCIAL DISPLAY'}</h2>
             <span>{zh ? '进入业务详情' : 'ENTER BUSINESS'} <b>↗</b></span>
           </div>
-        </Link>
-        <Link className="split-side split-gaming" href="/business/gaming">
+        </a>
+        <a className="split-side split-gaming" href="/business/gaming">
           {/* Add /public/video/holography-game.mp4 to replace the gradient background. */}
           <video className="split-video" autoPlay muted loop playsInline preload="metadata" aria-hidden="true">
             <source src="/video/holography-game.mp4" type="video/mp4" />
@@ -106,7 +104,7 @@ export default function Home() {
             <h2>{zh ? '无介质空气交互游戏' : 'MEDIUM-FREE OPEN-AIR GAMING'}</h2>
             <span>{zh ? '进入体验详情' : 'ENTER EXPERIENCE'} <b>↗</b></span>
           </div>
-        </Link>
+        </a>
       </section>
 
       <section className="about" id="about">

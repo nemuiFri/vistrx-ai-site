@@ -12,12 +12,12 @@ type HoloSceneProps = {
   className?: string;
 };
 
-const cyan = 0x3de6ff;
-const blue = 0x3478ff;
-const magenta = 0xe447ff;
-const acid = 0xff2ecf;
-const danger = 0xff3d59;
-const amber = 0xffad3d;
+const cyan = 0x78a7ad;
+const blue = 0x657a9d;
+const magenta = 0x98778f;
+const acid = 0xa77eaa;
+const danger = 0xa65f6b;
+const amber = 0xaa8962;
 
 function wire(color = cyan, opacity = 0.88) {
   return new THREE.MeshStandardMaterial({
