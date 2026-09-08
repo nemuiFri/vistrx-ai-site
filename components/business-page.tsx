@@ -140,7 +140,10 @@ export function BusinessPage({ kind }: { kind: 'display' | 'gaming' }) {
       <section className="business-contact">
         <p>{display ? (zh ? '需要把透明空间变成全息媒体？' : 'TURN A TRANSPARENT SPACE INTO HOLOGRAPHIC MEDIA?') : (zh ? '一起完成第一套空气全息游戏系统。' : 'HELP BUILD THE FIRST OPEN-AIR HOLOGRAPHIC GAME SYSTEM.')}</p>
         <h2>{zh ? '和我们聊聊。' : 'LET’S TALK.'}</h2>
-        <a href="mailto:panhuaming@cgmdog.com">panhuaming@cgmdog.com <span>↗</span></a>
+        <div className="business-contact-addresses">
+          <a href="mailto:clyde@vistrx.ai">clyde@vistrx.ai <span>↗</span></a>
+          <a href="mailto:iwang@vistrx.ai">iwang@vistrx.ai <span>↗</span></a>
+        </div>
       </section>
 
       <footer>

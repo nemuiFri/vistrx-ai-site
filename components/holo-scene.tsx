@@ -15,7 +15,7 @@ type HoloSceneProps = {
 const cyan = 0x3de6ff;
 const blue = 0x3478ff;
 const magenta = 0xe447ff;
-const acid = 0xdcff4f;
+const acid = 0xff2ecf;
 const danger = 0xff3d59;
 const amber = 0xffad3d;
 

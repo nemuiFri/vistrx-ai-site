@@ -1,7 +1,7 @@
 'use client';
 
 import Link from 'next/link';
-import { HoloScene } from '@/components/holo-scene';
+import Image from 'next/image';
 import { Brand, SiteNav } from '@/components/site-nav';
 import { useLanguage } from '@/components/use-language';
 
@@ -70,24 +70,43 @@ export default function Home() {
     <main>
       <SiteNav language={language} onLanguageChange={setLanguage} />
 
-      <section className="hero" id="top">
-        <div className="hero-grid" aria-hidden="true" />
-        <div className="hero-copy">
-          <p className="micro-label">{zh ? '全息显示 · 空间游戏' : 'HOLOGRAPHIC DISPLAY · SPATIAL GAMING'}</p>
-          <h1>{zh ? <>让空间<br /><em>看得见。</em></> : <>MAKE SPACE<br /><em>VISIBLE.</em></>}</h1>
-          <p className="hero-lede">{zh ? '我们现在交付有介质的商业全息显示，同时研发未来无介质、可在空气中交互的全息游戏。' : 'We deliver medium-based commercial holographic displays today, while developing medium-free holographic games for open-air interaction tomorrow.'}</p>
-          <a className="line-link" href="#experience">{zh ? '查看两项业务' : 'EXPLORE TWO BUSINESS LINES'} <span>↓</span></a>
+      <section className="logo-landing" id="top" aria-label="VISTRX AI">
+        <div className="logo-crop">
+          <Image src="/media/vistrx-logo.jpg" alt="VISTRX AI" width={2900} height={1700} priority sizes="88vw" />
         </div>
-        <div className="hero-figure" aria-hidden="true">
-          <div className="hero-person" />
-          <div className="hero-ring ring-one" />
-          <div className="hero-ring ring-two" />
-          <div className="hero-cross cross-x" />
-          <div className="hero-cross cross-y" />
-          <span className="hero-tag tag-view">{zh ? '视角 / 锁定' : 'VIEWPOINT / LOCKED'}</span>
-          <span className="hero-tag tag-body">{zh ? '身体 / 输入' : 'BODY / INPUT'}</span>
-        </div>
-          <div className="hero-foot"><span>VISTRX AI · 2026</span><span>{zh ? '向下探索' : 'SCROLL TO EXPLORE'}</span></div>
+        <a className="logo-scroll" href="#experience">
+          <span>{zh ? '探索两项业务' : 'EXPLORE TWO DIRECTIONS'}</span>
+          <i aria-hidden="true">↓</i>
+        </a>
+      </section>
+
+      <section className="business-split" id="experience" aria-label={zh ? '两项业务' : 'Two business directions'}>
+        <Link className="split-side split-holography" href="/business/display">
+          {/* Add /public/video/holography.mp4 to replace the gradient background. */}
+          <video className="split-video" autoPlay muted loop playsInline preload="metadata" aria-hidden="true">
+            <source src="/video/holography.mp4" type="video/mp4" />
+          </video>
+          <span className="split-shade" aria-hidden="true" />
+          <div className="split-copy">
+            <p>01 / {zh ? '现有业务' : 'CURRENT BUSINESS'}</p>
+            <h1>{zh ? '全息显示' : 'HOLOGRAPHY'}</h1>
+            <h2>{zh ? '有介质商业全息方案' : 'MEDIUM-BASED COMMERCIAL DISPLAY'}</h2>
+            <span>{zh ? '进入业务详情' : 'ENTER BUSINESS'} <b>↗</b></span>
+          </div>
+        </Link>
+        <Link className="split-side split-gaming" href="/business/gaming">
+          {/* Add /public/video/holography-game.mp4 to replace the gradient background. */}
+          <video className="split-video" autoPlay muted loop playsInline preload="metadata" aria-hidden="true">
+            <source src="/video/holography-game.mp4" type="video/mp4" />
+          </video>
+          <span className="split-shade" aria-hidden="true" />
+          <div className="split-copy">
+            <p>02 / {zh ? '未来体验' : 'FUTURE EXPERIENCE'}</p>
+            <h1>{zh ? '全息游戏' : 'HOLOGRAPHY + GAME'}</h1>
+            <h2>{zh ? '无介质空气交互游戏' : 'MEDIUM-FREE OPEN-AIR GAMING'}</h2>
+            <span>{zh ? '进入体验详情' : 'ENTER EXPERIENCE'} <b>↗</b></span>
+          </div>
+        </Link>
       </section>
 
       <section className="about" id="about">
@@ -121,50 +140,6 @@ export default function Home() {
               <i aria-hidden="true">↗</i>
             </article>
           ))}
-        </div>
-      </section>
-
-      <section className="experience" id="experience">
-        <header className="experience-head">
-          <div className="section-index">02 / {zh ? '两项业务' : 'TWO BUSINESS LINES'}</div>
-          <h2>{zh ? <>今天可以部署<br />明天可以进入</> : <>DEPLOY TODAY.<br />STEP IN TOMORROW.</>}</h2>
-          <p>{zh ? '一项业务已经面向商业空间交付；另一项是我们正在寻找合作伙伴共同完成的无介质全息游戏。鼠标移入卡片即可看到概念预览，点击进入完整详情。' : 'One business is ready for commercial environments. The other is our partner-led path toward medium-free holographic gaming. Hover for a concept preview, then click for the full detail page.'}</p>
-        </header>
-        <div className="experience-gates">
-          <Link className="experience-gate business-gate" href="/business/display">
-            <div className="gate-model">
-              <HoloScene mode="display" interactive={false} />
-              <div className="business-peek">
-                <span><i /> {zh ? '概念预览 · 已有业务' : 'CONCEPT PREVIEW · AVAILABLE NOW'}</span>
-                <strong>{zh ? '透明门禁全息媒体' : 'TRANSPARENT GATE MEDIA'}</strong>
-                <div><b>01</b>{zh ? '保留玻璃通透感' : 'Keeps the entrance transparent'}</div>
-                <div><b>02</b>{zh ? '动态三维商品内容' : 'Dynamic three-dimensional content'}</div>
-                <div><b>03</b>{zh ? '按地点与时间排期' : 'Scheduled by location and time'}</div>
-                <small>{zh ? '点击查看部署与商业价值' : 'CLICK FOR DEPLOYMENT & BUSINESS VALUE'} ↗</small>
-              </div>
-            </div>
-            <span>01 / {zh ? '已有业务 · 可落地' : 'CURRENT BUSINESS · DEPLOYABLE'}</span>
-            <h3>{zh ? '有介质全息显示' : 'Medium-based holographic display'}</h3>
-            <p>{zh ? '把既有玻璃门禁与透明表面升级成动态全息媒体，为品牌创造更强的现场注意力与新的广告展示空间。' : 'Upgrade existing glass gates and transparent surfaces into dynamic holographic media for stronger attention and new advertising inventory.'}</p>
-            <b>{zh ? '查看现有业务详情' : 'VIEW CURRENT BUSINESS'} ↗</b>
-          </Link>
-          <Link className="experience-gate business-gate" href="/business/gaming">
-            <div className="gate-model">
-              <HoloScene mode="track" interactive={false} />
-              <div className="business-peek">
-                <span><i /> {zh ? '概念预览 · 未来目标' : 'CONCEPT PREVIEW · FUTURE VISION'}</span>
-                <strong>{zh ? '空气中的可玩角色' : 'PLAYABLE CHARACTERS IN OPEN AIR'}</strong>
-                <div><b>01</b>{zh ? '玩家空间感知' : 'Spatial player sensing'}</div>
-                <div><b>02</b>{zh ? '实时视角追踪' : 'Real-time viewpoint tracking'}</div>
-                <div><b>03</b>{zh ? '身体与手势输入' : 'Body and gesture input'}</div>
-                <small>{zh ? '点击进入完整互动概念' : 'CLICK FOR THE FULL INTERACTIVE CONCEPT'} ↗</small>
-              </div>
-            </div>
-            <span>02 / {zh ? '未来业务 · 合作研发' : 'FUTURE BUSINESS · PARTNER R&D'}</span>
-            <h3>{zh ? '无介质全息游戏' : 'Medium-free holographic gaming'}</h3>
-            <p>{zh ? '不依赖屏幕、幕布、玻璃箱或穿戴设备，让三维角色出现在空气中，并通过玩家位置、视角与动作完成互动。' : 'No screen, projection surface, glass enclosure or wearable display—3D characters appear in open air and respond to position, viewpoint and movement.'}</p>
-            <b>{zh ? '查看未来业务详情' : 'VIEW FUTURE BUSINESS'} ↗</b>
-          </Link>
         </div>
       </section>
 
@@ -216,8 +191,11 @@ export default function Home() {
         <div className="closing-orbit" aria-hidden="true"><i /><i /><i /></div>
         <p>{zh ? '创始合作伙伴招募中' : 'FOUNDING PARTNERS · OPEN'}</p>
         <h2>{zh ? <>一起把它<br />变成现实</> : <>LET&apos;S MAKE IT<br />REAL.</>}</h2>
-        <a className="contact-link" href="mailto:panhuaming@cgmdog.com">{zh ? '开始沟通' : 'START A CONVERSATION'} <span>↗</span></a>
-        <small>panhuaming@cgmdog.com</small>
+        <div className="contact-addresses">
+          <a className="contact-link" href="mailto:clyde@vistrx.ai">clyde@vistrx.ai <span>↗</span></a>
+          <a className="contact-link" href="mailto:iwang@vistrx.ai">iwang@vistrx.ai <span>↗</span></a>
+        </div>
+        <small>{zh ? '商务与合作咨询' : 'BUSINESS & PARTNERSHIP CONTACTS'}</small>
       </section>
 
       <footer>
