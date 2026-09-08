@@ -1,10 +1,9 @@
 'use client';
 
-import { useEffect, useState } from 'react';
+import Link from 'next/link';
 import { HoloScene } from '@/components/holo-scene';
-import { IntroScene } from '@/components/intro-scene';
 import { Brand, SiteNav } from '@/components/site-nav';
-import { useLanguage, type Language } from '@/components/use-language';
+import { useLanguage } from '@/components/use-language';
 
 const capabilities = [
   {
@@ -63,47 +62,21 @@ const partners = [
   },
 ];
 
-function IntroGate({ language }: { language: Language }) {
-  const [visible, setVisible] = useState(true);
-  const zh = language === 'zh';
-
-  useEffect(() => {
-    const timer = window.setTimeout(() => setVisible(false), 3200);
-    return () => window.clearTimeout(timer);
-  }, []);
-
-  if (!visible) return null;
-
-  return (
-    <div className="intro-gate" aria-label={zh ? 'VISTRX AI 进入动画' : 'VISTRX AI entry sequence'}>
-      <button className="intro-skip" type="button" onClick={() => setVisible(false)}>{zh ? '跳过' : 'SKIP'}</button>
-      <p className="intro-status"><span>01</span>{zh ? '检测到玩家' : 'PLAYER DETECTED'}</p>
-      <IntroScene />
-      <div className="intro-phase" aria-hidden="true">
-        <span>{zh ? '扫描玩家' : 'SCAN PLAYER'}</span>
-        <span>{zh ? '生成界面' : 'PROJECT INTERFACE'}</span>
-        <span>{zh ? '触控确认' : 'TOUCH CONFIRMED'}</span>
-      </div>
-    </div>
-  );
-}
-
 export default function Home() {
   const { language, setLanguage } = useLanguage();
   const zh = language === 'zh';
 
   return (
     <main>
-      <IntroGate language={language} />
       <SiteNav language={language} onLanguageChange={setLanguage} />
 
       <section className="hero" id="top">
         <div className="hero-grid" aria-hidden="true" />
         <div className="hero-copy">
-          <p className="micro-label">{zh ? '空间游戏 · 无需穿戴设备' : 'SPATIAL GAMEPLAY · WITHOUT WEARABLES'}</p>
-          <h1>{zh ? <>走进<br /><em>游戏。</em></> : <>STEP INTO<br />THE <em>GAME.</em></>}</h1>
-          <p className="hero-lede">{zh ? '一个面向游戏行业的全息互动项目，让身体位置、观看视角和动作成为控制方式。' : 'A holographic interaction project for the game industry, where body position, viewpoint and movement become the controls.'}</p>
-          <a className="line-link" href="#experience">{zh ? '探索体验' : 'EXPLORE THE EXPERIENCE'} <span>↓</span></a>
+          <p className="micro-label">{zh ? '全息显示 · 空间游戏' : 'HOLOGRAPHIC DISPLAY · SPATIAL GAMING'}</p>
+          <h1>{zh ? <>让空间<br /><em>看得见。</em></> : <>MAKE SPACE<br /><em>VISIBLE.</em></>}</h1>
+          <p className="hero-lede">{zh ? '我们现在交付有介质的商业全息显示，同时研发未来无介质、可在空气中交互的全息游戏。' : 'We deliver medium-based commercial holographic displays today, while developing medium-free holographic games for open-air interaction tomorrow.'}</p>
+          <a className="line-link" href="#experience">{zh ? '查看两项业务' : 'EXPLORE TWO BUSINESS LINES'} <span>↓</span></a>
         </div>
         <div className="hero-figure" aria-hidden="true">
           <div className="hero-person" />
@@ -114,7 +87,7 @@ export default function Home() {
           <span className="hero-tag tag-view">{zh ? '视角 / 锁定' : 'VIEWPOINT / LOCKED'}</span>
           <span className="hero-tag tag-body">{zh ? '身体 / 输入' : 'BODY / INPUT'}</span>
         </div>
-        <div className="hero-foot"><span>CONCEPT 001 · 2026</span><span>{zh ? '向下滚动' : 'SCROLL TO ENTER'}</span></div>
+          <div className="hero-foot"><span>VISTRX AI · 2026</span><span>{zh ? '向下探索' : 'SCROLL TO EXPLORE'}</span></div>
       </section>
 
       <section className="about" id="about">
@@ -123,7 +96,7 @@ export default function Home() {
           <h2>{zh ? <>完整团队<br />完整管线</> : <>ONE TEAM.<br />FULL PIPELINE.</>}</h2>
           <div className="about-copy">
             <p>{zh ? 'VISTRX AI 由芒狗动画团队发起。芒狗动画是一家位于天津的游戏视觉制作公司，拥有 18 年动画与 CG 制作积淀，服务全球游戏客户。' : 'VISTRX AI is initiated by MDOG Animation, a Tianjin-based game visual production studio with 18 years of animation and CG experience serving global game clients.'}</p>
-            <p>{zh ? '我们的完整制作团队覆盖前期创意、三维制作、实时引擎、AI 内容、交互开发和制片交付。这个项目把现有内容能力延伸到空间计算和全息游戏。' : 'Our complete production team covers creative development, 3D production, real-time engines, AI content, interaction engineering and delivery. This project extends that foundation into spatial computing and holographic games.'}</p>
+            <p>{zh ? '我们的完整团队覆盖创意、三维制作、实时引擎、AI 内容、交互开发和制片交付。现在，我们把这套能力用于两项业务：可落地的有介质全息显示，以及面向未来的无介质全息游戏。' : 'Our complete team covers creative development, 3D production, real-time engines, AI content, interaction engineering and delivery. We now apply that pipeline to two businesses: deployable medium-based holographic displays and next-generation medium-free holographic gaming.'}</p>
           </div>
         </div>
 
@@ -153,25 +126,45 @@ export default function Home() {
 
       <section className="experience" id="experience">
         <header className="experience-head">
-          <div className="section-index">02 / {zh ? '体验' : 'EXPERIENCE'}</div>
-          <h2>{zh ? <>两个体验<br />实时 3D 概念</> : <>TWO EXPERIENCES.<br />LIVE 3D CONCEPTS.</>}</h2>
-          <p>{zh ? '进入两个独立体验页，点击每个步骤查看对应的实时三维模型。模型可旋转、缩放，并展示概念动作。' : 'Enter two dedicated experience pages. Select each stage to inspect a live 3D model that rotates, zooms and demonstrates the concept in motion.'}</p>
+          <div className="section-index">02 / {zh ? '两项业务' : 'TWO BUSINESS LINES'}</div>
+          <h2>{zh ? <>今天可以部署<br />明天可以进入</> : <>DEPLOY TODAY.<br />STEP IN TOMORROW.</>}</h2>
+          <p>{zh ? '一项业务已经面向商业空间交付；另一项是我们正在寻找合作伙伴共同完成的无介质全息游戏。鼠标移入卡片即可看到概念预览，点击进入完整详情。' : 'One business is ready for commercial environments. The other is our partner-led path toward medium-free holographic gaming. Hover for a concept preview, then click for the full detail page.'}</p>
         </header>
         <div className="experience-gates">
-          <a className="experience-gate" href="/experience/system">
-            <div className="gate-model"><HoloScene mode="track" interactive={false} /></div>
-            <span>01 / {zh ? '系统体验' : 'SYSTEM EXPERIENCE'}</span>
-            <h3>{zh ? '从玩家出现到系统响应' : 'From presence to response'}</h3>
-            <p>{zh ? '查看感知、身份识别、空间内容生成和视角追踪四个实时 3D 概念。' : 'Explore four real-time 3D concepts for sensing, identity, spatial content generation and viewpoint tracking.'}</p>
-            <b>{zh ? '进入系统体验' : 'OPEN SYSTEM EXPERIENCE'} ↗</b>
-          </a>
-          <a className="experience-gate" href="/experience/gameplay">
-            <div className="gate-model"><HoloScene mode="flank" interactive={false} /></div>
-            <span>02 / {zh ? '战斗体验' : 'COMBAT EXPERIENCE'}</span>
-            <h3>{zh ? '身体动作成为游戏输入' : 'Your body becomes input'}</h3>
-            <p>{zh ? '查看闪避、绕后和手势攻击三个实时 3D 战斗玩法概念。' : 'Enter three real-time 3D combat concepts for dodging, flanking and gesture-driven attacks.'}</p>
-            <b>{zh ? '进入战斗体验' : 'OPEN COMBAT EXPERIENCE'} ↗</b>
-          </a>
+          <Link className="experience-gate business-gate" href="/business/display">
+            <div className="gate-model">
+              <HoloScene mode="display" interactive={false} />
+              <div className="business-peek">
+                <span><i /> {zh ? '概念预览 · 已有业务' : 'CONCEPT PREVIEW · AVAILABLE NOW'}</span>
+                <strong>{zh ? '透明门禁全息媒体' : 'TRANSPARENT GATE MEDIA'}</strong>
+                <div><b>01</b>{zh ? '保留玻璃通透感' : 'Keeps the entrance transparent'}</div>
+                <div><b>02</b>{zh ? '动态三维商品内容' : 'Dynamic three-dimensional content'}</div>
+                <div><b>03</b>{zh ? '按地点与时间排期' : 'Scheduled by location and time'}</div>
+                <small>{zh ? '点击查看部署与商业价值' : 'CLICK FOR DEPLOYMENT & BUSINESS VALUE'} ↗</small>
+              </div>
+            </div>
+            <span>01 / {zh ? '已有业务 · 可落地' : 'CURRENT BUSINESS · DEPLOYABLE'}</span>
+            <h3>{zh ? '有介质全息显示' : 'Medium-based holographic display'}</h3>
+            <p>{zh ? '把既有玻璃门禁与透明表面升级成动态全息媒体，为品牌创造更强的现场注意力与新的广告展示空间。' : 'Upgrade existing glass gates and transparent surfaces into dynamic holographic media for stronger attention and new advertising inventory.'}</p>
+            <b>{zh ? '查看现有业务详情' : 'VIEW CURRENT BUSINESS'} ↗</b>
+          </Link>
+          <Link className="experience-gate business-gate" href="/business/gaming">
+            <div className="gate-model">
+              <HoloScene mode="track" interactive={false} />
+              <div className="business-peek">
+                <span><i /> {zh ? '概念预览 · 未来目标' : 'CONCEPT PREVIEW · FUTURE VISION'}</span>
+                <strong>{zh ? '空气中的可玩角色' : 'PLAYABLE CHARACTERS IN OPEN AIR'}</strong>
+                <div><b>01</b>{zh ? '玩家空间感知' : 'Spatial player sensing'}</div>
+                <div><b>02</b>{zh ? '实时视角追踪' : 'Real-time viewpoint tracking'}</div>
+                <div><b>03</b>{zh ? '身体与手势输入' : 'Body and gesture input'}</div>
+                <small>{zh ? '点击进入完整互动概念' : 'CLICK FOR THE FULL INTERACTIVE CONCEPT'} ↗</small>
+              </div>
+            </div>
+            <span>02 / {zh ? '未来业务 · 合作研发' : 'FUTURE BUSINESS · PARTNER R&D'}</span>
+            <h3>{zh ? '无介质全息游戏' : 'Medium-free holographic gaming'}</h3>
+            <p>{zh ? '不依赖屏幕、幕布、玻璃箱或穿戴设备，让三维角色出现在空气中，并通过玩家位置、视角与动作完成互动。' : 'No screen, projection surface, glass enclosure or wearable display—3D characters appear in open air and respond to position, viewpoint and movement.'}</p>
+            <b>{zh ? '查看未来业务详情' : 'VIEW FUTURE BUSINESS'} ↗</b>
+          </Link>
         </div>
       </section>
 
@@ -223,13 +216,13 @@ export default function Home() {
         <div className="closing-orbit" aria-hidden="true"><i /><i /><i /></div>
         <p>{zh ? '创始合作伙伴招募中' : 'FOUNDING PARTNERS · OPEN'}</p>
         <h2>{zh ? <>一起把它<br />变成现实</> : <>LET&apos;S MAKE IT<br />REAL.</>}</h2>
-        <button type="button">{zh ? '开始沟通' : 'START A CONVERSATION'} <span>↗</span></button>
-        <small>{zh ? '联系方式待确认' : 'CONTACT CHANNEL · TO BE CONFIRMED'}</small>
+        <a className="contact-link" href="mailto:panhuaming@cgmdog.com">{zh ? '开始沟通' : 'START A CONVERSATION'} <span>↗</span></a>
+        <small>panhuaming@cgmdog.com</small>
       </section>
 
       <footer>
         <Brand />
-        <span>{zh ? '全息游戏 · 概念 2026' : 'HOLOGRAPHIC GAMING · CONCEPT 2026'}</span>
+        <span>{zh ? '全息显示与空间游戏 · 2026' : 'HOLOGRAPHIC DISPLAY & SPATIAL GAMING · 2026'}</span>
         <span>{zh ? '内容伙伴 · 芒狗动画' : 'CONTENT PARTNER · MDOG ANIMATION'}</span>
       </footer>
     </main>

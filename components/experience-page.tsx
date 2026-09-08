@@ -1,5 +1,6 @@
 'use client';
 
+import Link from 'next/link';
 import { useState } from 'react';
 import { HoloScene, type SceneMode } from './holo-scene';
 import { SiteNav } from './site-nav';
@@ -13,6 +14,7 @@ type Concept = {
 };
 
 const sceneLegends: Record<SceneMode, { en: string[]; zh: string[] }> = {
+  display: { en: ['EXISTING GLASS GATE', 'TRANSPARENT DISPLAY MEDIUM', 'SCHEDULED 3D CONTENT'], zh: ['既有玻璃门禁', '透明显示介质', '可排期三维内容'] },
   sense: { en: ['CAMERA ARRAY', 'DETECTION RAYS', 'CALIBRATED PLAYER VOLUME'], zh: ['摄像阵列', '检测射线', '玩家校准空间'] },
   identify: { en: ['IDENTITY VOLUME', 'BODY LANDMARKS', 'HEAD LOCK'], zh: ['身份空间框', '身体关键点', '头部锁定'] },
   generate: { en: ['2D SOURCE ASSET', 'AI 3D RECONSTRUCTION', 'MULTI-VIEW MODEL'], zh: ['二维源素材', 'AI 三维重建', '多视角模型'] },
@@ -86,7 +88,7 @@ export function ExperiencePage({ kind }: { kind: 'system' | 'gameplay' }) {
     <main className="experience-page">
       <SiteNav language={language} onLanguageChange={setLanguage} />
       <header className="experience-page-hero">
-        <a href="/#experience" className="back-link">← {language === 'zh' ? '返回全部体验' : 'ALL EXPERIENCES'}</a>
+        <Link href="/#experience" className="back-link">← {language === 'zh' ? '返回全部体验' : 'ALL EXPERIENCES'}</Link>
         <p>{content.eyebrow}</p>
         <h1>{content.title.split('\n').map((line) => <span key={line}>{line}</span>)}</h1>
         <div className="experience-page-intro">
@@ -128,11 +130,11 @@ export function ExperiencePage({ kind }: { kind: 'system' | 'gameplay' }) {
         </article>
       </section>
 
-      <a className="next-experience" href={content.route}>
+      <Link className="next-experience" href={content.route}>
         <span>{language === 'zh' ? '继续探索' : 'CONTINUE EXPLORING'}</span>
         <strong>{content.next}</strong>
         <b>↗</b>
-      </a>
+      </Link>
     </main>
   );
 }

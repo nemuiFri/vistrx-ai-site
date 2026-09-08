@@ -4,7 +4,7 @@ import { useEffect, useRef } from 'react';
 import * as THREE from 'three';
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js';
 
-export type SceneMode = 'sense' | 'identify' | 'generate' | 'track' | 'dodge' | 'flank' | 'strike';
+export type SceneMode = 'display' | 'sense' | 'identify' | 'generate' | 'track' | 'dodge' | 'flank' | 'strike';
 
 type HoloSceneProps = {
   mode: SceneMode;
@@ -63,11 +63,6 @@ function addJoint(group: THREE.Group, point: THREE.Vector3, radius: number, mate
 
 function lineBetween(start: THREE.Vector3, end: THREE.Vector3, color = cyan, opacity = 0.62) {
   const geometry = new THREE.BufferGeometry().setFromPoints([start, end]);
-  return new THREE.Line(geometry, new THREE.LineBasicMaterial({ color, transparent: true, opacity }));
-}
-
-function polyline(points: THREE.Vector3[], color = cyan, opacity = 0.72) {
-  const geometry = new THREE.BufferGeometry().setFromPoints(points);
   return new THREE.Line(geometry, new THREE.LineBasicMaterial({ color, transparent: true, opacity }));
 }
 
@@ -261,8 +256,97 @@ function makeViewMarker(color = acid) {
   return marker;
 }
 
+function makeRetailProduct(kind: 'can' | 'burger', color: number) {
+  const product = new THREE.Group();
+  const productMaterial = wire(color, 0.9);
+
+  if (kind === 'can') {
+    const body = new THREE.Mesh(new THREE.CylinderGeometry(0.32, 0.32, 1.05, 24), productMaterial);
+    const top = new THREE.Mesh(new THREE.CylinderGeometry(0.3, 0.3, 0.035, 24), glow(0xd8f5ff, 0.82));
+    top.position.y = 0.54;
+    const band = new THREE.Mesh(new THREE.TorusGeometry(0.325, 0.025, 8, 36), glow(acid, 0.8));
+    band.rotation.x = Math.PI / 2;
+    product.add(body, top, band);
+  } else {
+    const bunTop = new THREE.Mesh(new THREE.SphereGeometry(0.48, 22, 12, 0, Math.PI * 2, 0, Math.PI / 2), productMaterial);
+    bunTop.position.y = 0.28;
+    const patty = new THREE.Mesh(new THREE.CylinderGeometry(0.46, 0.46, 0.2, 24), wire(danger, 0.82));
+    const filling = new THREE.Mesh(new THREE.CylinderGeometry(0.5, 0.5, 0.08, 24), glow(acid, 0.8));
+    filling.position.y = -0.17;
+    const bunBottom = new THREE.Mesh(new THREE.CylinderGeometry(0.43, 0.43, 0.2, 24), productMaterial);
+    bunBottom.position.y = -0.34;
+    product.add(bunTop, patty, filling, bunBottom);
+  }
+
+  const orbit = ring(kind === 'can' ? 0.58 : 0.72, color, 0.62, 0.012);
+  orbit.rotation.x = Math.PI / 2;
+  orbit.position.y = -0.68;
+  orbit.userData.spinZ = kind === 'can' ? 0.35 : -0.28;
+  product.add(orbit);
+  product.userData.bob = { base: 0.25, amplitude: 0.1, speed: kind === 'can' ? 1.35 : 1.1 };
+  product.userData.spinY = kind === 'can' ? 0.34 : -0.25;
+  return product;
+}
+
 function buildScene(mode: SceneMode) {
   const root = new THREE.Group();
+
+  if (mode === 'display') {
+    const metal = new THREE.MeshStandardMaterial({ color: 0x30404a, metalness: 0.92, roughness: 0.18 });
+    const glass = new THREE.MeshPhysicalMaterial({
+      color: 0x4de6ff,
+      transparent: true,
+      opacity: 0.1,
+      transmission: 0.78,
+      roughness: 0.06,
+      metalness: 0.08,
+      depthWrite: false,
+      side: THREE.DoubleSide,
+    });
+
+    [-2.55, 0, 2.55].forEach((x, index) => {
+      const column = new THREE.Mesh(new THREE.CylinderGeometry(0.32, 0.36, 4.15, 28), metal);
+      column.position.set(x, 0.74, 0);
+      root.add(column);
+      const lightBand = new THREE.Mesh(new THREE.TorusGeometry(0.33, 0.055, 10, 48), glow(index === 1 ? magenta : cyan, 0.94));
+      lightBand.rotation.x = Math.PI / 2;
+      lightBand.position.set(x, 2.48, 0);
+      lightBand.userData.pulse = { base: 1, amplitude: 0.06, speed: 2.8, phase: index * 0.7 };
+      root.add(lightBand);
+    });
+
+    [-1.28, 1.28].forEach((x, index) => {
+      const panel = new THREE.Mesh(new THREE.BoxGeometry(2.16, 3.18, 0.08), glass);
+      panel.position.set(x, 0.7, 0);
+      root.add(panel);
+      const edge = new THREE.LineSegments(
+        new THREE.EdgesGeometry(new THREE.BoxGeometry(2.16, 3.18, 0.08)),
+        new THREE.LineBasicMaterial({ color: index ? magenta : cyan, transparent: true, opacity: 0.66 }),
+      );
+      edge.position.copy(panel.position);
+      root.add(edge);
+    });
+
+    const can = makeRetailProduct('can', cyan);
+    can.position.set(-1.28, 0.25, 0.34);
+    root.add(can);
+    const burger = makeRetailProduct('burger', magenta);
+    burger.position.set(1.28, 0.25, 0.34);
+    root.add(burger);
+
+    for (let i = 0; i < 28; i += 1) {
+      const particle = new THREE.Mesh(new THREE.SphereGeometry(0.025 + (i % 3) * 0.009, 7, 5), glow(i % 2 ? cyan : magenta, 0.78));
+      const side = i % 2 ? -1 : 1;
+      particle.position.set(side * (0.78 + (i % 6) * 0.16), -0.55 + (i % 8) * 0.25, 0.28 + (i % 3) * 0.12);
+      particle.userData.floatY = { base: particle.position.y, amplitude: 0.14, speed: 0.8 + (i % 5) * 0.16, phase: i * 0.42 };
+      root.add(particle);
+    }
+
+    const floorGlow = new THREE.Mesh(new THREE.PlaneGeometry(5.7, 1.65), glow(cyan, 0.06));
+    floorGlow.rotation.x = -Math.PI / 2;
+    floorGlow.position.set(0, -1.32, 0.1);
+    root.add(floorGlow);
+  }
 
   if (mode === 'sense') {
     addPlatform(root, 1.75);
@@ -476,7 +560,7 @@ export function HoloScene({ mode, interactive = true, className = '' }: HoloScen
     const scene = new THREE.Scene();
     scene.fog = new THREE.FogExp2(0x020407, 0.075);
     const camera = new THREE.PerspectiveCamera(38, 1, 0.1, 100);
-    camera.position.set(0, 1.45, mode === 'generate' ? 9.5 : 8.7);
+    camera.position.set(0, 1.45, mode === 'generate' || mode === 'display' ? 9.5 : 8.7);
 
     const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true, powerPreference: 'high-performance' });
     renderer.setPixelRatio(Math.min(window.devicePixelRatio, 1.75));
@@ -573,6 +657,10 @@ export function HoloScene({ mode, interactive = true, className = '' }: HoloScen
         if (object.userData.bob) {
           const bob = object.userData.bob;
           object.position.y = bob.base + Math.sin(elapsed * bob.speed) * bob.amplitude;
+        }
+        if (object.userData.floatY) {
+          const floating = object.userData.floatY;
+          object.position.y = floating.base + Math.sin(elapsed * floating.speed + floating.phase) * floating.amplitude;
         }
         if (object.userData.faceViewer) object.rotation.y = Math.sin(elapsed * 0.7) * 0.22;
         if (object.userData.projectile) {

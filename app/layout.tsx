@@ -2,18 +2,18 @@ import type { Metadata } from 'next';
 import './globals.css';
 
 export const metadata: Metadata = {
-  metadataBase: new URL('https://vistrx-ai-holographic-gaming.wouldulike0621.chatgpt.site'),
-  title: 'VISTRX AI · Holographic Gaming System',
-  description: 'VISTRX AI is building open-air holographic games controlled by player position, viewpoint and movement.',
+  metadataBase: new URL('https://vistrx.ai'),
+  title: 'VISTRX AI · Holographic Display & Spatial Gaming',
+  description: 'VISTRX AI delivers medium-based holographic display solutions today and develops medium-free open-air holographic gaming for tomorrow.',
   openGraph: {
-    title: 'VISTRX AI · Step Into the Game',
-    description: 'Open-air holographic games controlled by player position, viewpoint and movement.',
-    images: [{ url: '/og.png', width: 1200, height: 630, alt: 'VISTRX AI holographic gaming' }],
+    title: 'VISTRX AI · Make Space Visible',
+    description: 'Commercial holographic display today. Medium-free spatial gaming tomorrow.',
+    images: [{ url: '/og.png', width: 1200, height: 630, alt: 'VISTRX AI holographic display and spatial gaming' }],
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'VISTRX AI · Step Into the Game',
-    description: 'Open-air holographic games controlled by player position, viewpoint and movement.',
+    title: 'VISTRX AI · Make Space Visible',
+    description: 'Commercial holographic display today. Medium-free spatial gaming tomorrow.',
     images: ['/og.png'],
   },
 };
