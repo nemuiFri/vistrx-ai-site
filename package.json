@@ -6,6 +6,9 @@
     "node": ">=22.13.0"
   },
   "scripts": {
+    "sync:standalone": "node scripts/sync-standalone.mjs",
+    "predev": "pnpm run sync:standalone",
+    "prebuild": "pnpm run sync:standalone",
     "dev": "vinext dev",
     "build": "vinext build",
     "start": "wrangler dev --config dist/server/wrangler.json",
