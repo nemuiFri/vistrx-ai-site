@@ -78,11 +78,13 @@ def mtimes() -> dict[Path, int]:
 
 def main() -> None:
     previous_mtimes = mtimes()
-    pending_since: Optional[float] = None
+    pending_since: Optional[float] = time.monotonic() if has_changes() else None
     next_push_retry: Optional[float] = None
 
     print("[auto-publish] Watching HTML/CSS/logo and public/video files.", flush=True)
     print("[auto-publish] Every saved change will be committed and pushed to main.", flush=True)
+    if pending_since is not None:
+        print("[auto-publish] Existing website changes detected; publishing them now.", flush=True)
 
     while True:
         current_mtimes = mtimes()
