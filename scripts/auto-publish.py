@@ -14,6 +14,8 @@ WATCHED_FILES = (
     ROOT / "team-handoff/index.html",
     ROOT / "team-handoff/styles.css",
     ROOT / "team-handoff/vistrx-logo.jpg",
+    ROOT / "public/video/holography.mp4",
+    ROOT / "public/video/holography-game.mp4",
 )
 DEBOUNCE_SECONDS = 2
 RETRY_SECONDS = 30
@@ -30,7 +32,12 @@ def git(*args: str, check: bool = True) -> subprocess.CompletedProcess[str]:
 
 
 def has_changes() -> bool:
-    result = git("status", "--porcelain", "--", *[str(path.relative_to(ROOT)) for path in WATCHED_FILES])
+    relative_files = [
+        str(path.relative_to(ROOT))
+        for path in WATCHED_FILES
+        if path.exists()
+    ]
+    result = git("status", "--porcelain", "--", *relative_files)
     return bool(result.stdout.strip())
 
 
@@ -38,7 +45,11 @@ def commit_changes() -> bool:
     if not has_changes():
         return False
 
-    relative_files = [str(path.relative_to(ROOT)) for path in WATCHED_FILES]
+    relative_files = [
+        str(path.relative_to(ROOT))
+        for path in WATCHED_FILES
+        if path.exists()
+    ]
     git("add", "--", *relative_files)
     message = f"Update website ({time.strftime('%Y-%m-%d %H:%M:%S')})"
     result = git("commit", "-m", message, check=False)
