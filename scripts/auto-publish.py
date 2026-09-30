@@ -81,7 +81,7 @@ def main() -> None:
     pending_since: Optional[float] = None
     next_push_retry: Optional[float] = None
 
-    print("[auto-publish] Watching team-handoff HTML/CSS/logo files.", flush=True)
+    print("[auto-publish] Watching HTML/CSS/logo and public/video files.", flush=True)
     print("[auto-publish] Every saved change will be committed and pushed to main.", flush=True)
 
     while True:
