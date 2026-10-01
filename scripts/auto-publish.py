@@ -14,7 +14,6 @@ WATCHED_FILES = (
     ROOT / "team-handoff/index.html",
     ROOT / "team-handoff/styles.css",
     ROOT / "team-handoff/vistrx-logo.jpg",
-    ROOT / "public/video/holography.mp4",
     ROOT / "public/video/holography-game.mp4",
 )
 DEBOUNCE_SECONDS = 2
@@ -81,7 +80,7 @@ def main() -> None:
     pending_since: Optional[float] = time.monotonic() if has_changes() else None
     next_push_retry: Optional[float] = None
 
-    print("[auto-publish] Watching HTML/CSS/logo and public/video files.", flush=True)
+    print("[auto-publish] Watching HTML/CSS/logo and holography-game.mp4 only.", flush=True)
     print("[auto-publish] Every saved change will be committed and pushed to main.", flush=True)
     if pending_since is not None:
         print("[auto-publish] Existing website changes detected; publishing them now.", flush=True)
